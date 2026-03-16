@@ -172,10 +172,13 @@ function makeCertificate(){
 
     // Google Sheet 전송
     fetch("https://script.google.com/macros/s/AKfycbzdPoaEk4SnTp4nhzNlrDW8aPaPuPM7WwFISqAooLDPIB3mIvhq3o23ZU7I3G-L5pw/exec", {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({org,name,book,date,q1,q2,q3,q4,comment})
-    });
+        method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ org, name, book, date, q1, q2, q3, q4, comment })
+})
+.then(res => res.json())
+.then(data => console.log("Sheet response:", data))
+.catch(err => console.error(err));
 
     window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
   }
