@@ -174,7 +174,6 @@ function makeCertificate(){
     fetch("https://script.google.com/macros/s/AKfycbzdPoaEk4SnTp4nhzNlrDW8aPaPuPM7WwFISqAooLDPIB3mIvhq3o23ZU7I3G-L5pw/exec", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      mode:"no-cors",
       body: JSON.stringify({org,name,book,date,q1,q2,q3,q4,comment})
     });
 
