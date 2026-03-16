@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>작가랜드 작가증 발급</title>
+
+<style>
+body{
+  font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  background:#FFF9C4;
+  text-align:center;
+  padding:40px 20px;
+  margin:0;
+}
+
+.container{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  max-width:640px;
+  margin:auto;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1{color:#5c6bc0;margin-top:0}
+
+input,select,textarea{
+  width:90%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:16px;
+  box-sizing:border-box;
+}
+
+button{
+  background:#6b7cff;
+  color:white;
+  border:none;
+  padding:15px 30px;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{background:#5061ff}
+
+canvas{
+  margin-top:25px;
+  max-width:100%;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  display:none;
+}
+
+#downloadBtn{
+  margin-top:20px;
+  background:#4caf50;
+  display:none;
+}
+
+.survey-title{
+  margin-top:20px;
+  margin-bottom:5px;
+  font-size:1.05em;
+  color:#333;
+  text-align:left;
+  margin-left:5%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📜 작가랜드 작가증 ✏️</h1>
+<p>정보와 설문을 입력하면 나만의 작가증을 만들 수 있어요!</p>
+
+<input id="org" placeholder="기관명(학교/단체) 입력">
+<input id="name" placeholder="성명 입력">
+<input id="book" placeholder="도서 제목 입력">
+<input id="date" type="date">
+<p style="font-size:14px; color:#666; margin-top:-5px;">
+※ 판권지에 기재된 날짜를 입력해주세요.
+</p>
+
+<div class="survey-title">1️⃣ 강사님의 수업 진행은 어떠셨나요?</div>
+<select id="q1">
+<option>매우 만족</option>
+<option>만족</option>
+<option>보통</option>
+<option>아쉬움</option>
+</select>
+
+<div class="survey-title">2️⃣ 책 만들기 과정 난이도는 어떠셨나요?</div>
+<select id="q2">
+<option>쉬웠다</option>
+<option>적당했다</option>
+<option>조금 어려웠다</option>
+<option>어려웠다</option>
+</select>
+
+<div class="survey-title">3️⃣ 완성된 책 결과물 만족도는 어떠신가요?</div>
+<select id="q3">
+<option>매우 만족</option>
+<option>만족</option>
+<option>보통</option>
+<option>아쉬움</option>
+</select>
+
+<div class="survey-title">4️⃣ 다시 책 만들기 활동에 참여하고 싶으신가요?</div>
+<select id="q4">
+<option>꼭 참여하고 싶다</option>
+<option>기회가 있다면 참여</option>
+<option>잘 모르겠다</option>
+</select>
+
+<div class="survey-title">📍 느낀 점이나 프로그램에 바라는 점</div>
+<textarea id="comment" rows="3" placeholder="활동하며 느낀 점을 적어주세요"></textarea>
+
+<br><br>
+
+<button onclick="makeCertificate()">작가증 생성 + 시트 전송</button>
+
+<br>
+<canvas id="canvas"></canvas>
+
+<br>
+<a id="downloadLink">
+<button id="downloadBtn">작가증 다운로드 (PNG)</button>
+</a>
+
+</div>
+
+<script>
+// 실제 증명서 이미지를 Base64로 변환해서 넣으세요
+const certificateBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...";
+
+function makeCertificate(){
+  const org = document.getElementById("org").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const book = document.getElementById("book").value.trim();
+  const date = document.getElementById("date").value;
+  const q1 = document.getElementById("q1").value;
+  const q2 = document.getElementById("q2").value;
+  const q3 = document.getElementById("q3").value;
+  const q4 = document.getElementById("q4").value;
+  const comment = document.getElementById("comment").value;
+
+  if(!name){
+    alert("성명을 입력해주세요");
+    return;
+  }
+
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  const img = new Image();
+  img.src = certificateBase64;
+
+  img.onload = function(){
+    canvas.width = img.width;
+    canvas.height = img.height;
+    canvas.style.display="block";
+    ctx.drawImage(img,0,0);
+
+    // 왼쪽 정렬
+    ctx.textAlign="left";
+    ctx.fillStyle="#222";
+
+    if(org) ctx.fillText(org, canvas.width/2.7, canvas.height*0.36);
+    ctx.fillText(name, canvas.width/2.7, canvas.height*0.40);
+    if(book) ctx.fillText(book, canvas.width/2.7, canvas.height*0.44);
+
+    // 날짜만 중앙정렬
+    ctx.textAlign="center";
+    if(date) {
+      ctx.font = "26px sans-serif";
+      ctx.fillText(date, canvas.width/2, canvas.height*0.75);
+    }
+
+    // 다운로드 버튼
+    const link = document.getElementById("downloadLink");
+    const btn = document.getElementById("downloadBtn");
+    link.href = canvas.toDataURL("image/png");
+    link.download = name+"_작가증.png";
+    btn.style.display="inline-block";
+
+    // Google Sheet 전송
+    fetch("YOUR_WEB_APP_URL", {   // ← 배포한 Apps Script 웹앱 URL
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      mode:"no-cors",
+      body: JSON.stringify({org,name,book,date,q1,q2,q3,q4,comment})
+    });
+
+    window.scrollTo({ top:document.body.scrollHeight, behavior:"smooth" });
+  }
+}
+</script>
+
+</body>
+</html>
