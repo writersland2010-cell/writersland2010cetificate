@@ -190,31 +190,17 @@ img.onload=function(){
 canvas.width=img.width;
 canvas.height=img.height;
 
-canvas.style.display="block";
-
 ctx.drawImage(img,0,0);
 
-const startX = canvas.width * 2.7;
+ctx.font="24px Malgun Gothic";
+ctx.fillStyle="#000";
 
-ctx.textAlign="left";
-ctx.fillStyle="#222";
+ctx.fillText(org,400,300);
+ctx.fillText(name,400,350);
+ctx.fillText(book,400,400);
+ctx.fillText(date,450,650);
 
-// 기관
-ctx.font="20px sans-serif";
-if(org)ctx.fillText(org,canvas.width/2.7,canvas.height*0.36);
-
-// 성명
-ctx.font="20px sans-serif";
-ctx.fillText(name,canvas.width/2.7,canvas.height*0.40);
-
-// 도서 제목
-ctx.font="20px sans-serif";
-if(book)ctx.fillText(""+book+"",canvas.width/2.7,canvas.height*0.44);
-
-// 날짜
-ctx.textAlign="center";
-ctx.font="26px sans-serif";
-if(date)ctx.fillText(date,canvas.width/2,canvas.height*0.75);
+canvas.style.display="block";
 
 
 const link=document.getElementById("downloadLink");
@@ -230,7 +216,7 @@ btn.style.display="inline-block";
 
 /* 구글시트 전송 */
 
-fetch("https://script.google.com/macros/s/AKfycbw77KmlgVw-lNpk75co_tD_ILQc0Fi6BG0mvMuY9hDyOLIq66o11Y_M4bKlN2kccKMA/exec",{
+fetch("https://script.google.com/macros/s/AKfycbxVwY7p4PilRhmD2PuvI4CgUERcTLe2l79dJhIJC3zgX-_B9RIpdDvkTISQFL50FXnL/exec",{
 
 method:"POST",
 
