@@ -240,7 +240,7 @@ if(file){
             ctx.fillText(org,canvas.width/3.5,canvas.height*0.363);
             ctx.fillText(name,canvas.width/3.5,canvas.height*0.403);
           
-            const maxChars = 10; 
+            const maxChars = 16; 
             const textX = canvas.width/3.5;
             const baseY = canvas.height*0.443;
             
@@ -250,6 +250,7 @@ if(file){
               } else {
                 ctx.fillText(book, textX, baseY);
               }
+          
             ctx.textAlign="center";
             ctx.font="26px sans-serif";
             ctx.fillText(date,canvas.width/2,canvas.height*0.75);
